@@ -1,0 +1,14 @@
+{
+    "name": "ccnkss/ilkom2017bot",
+    "description": "Ilkom 2017 Bot Reborn",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Khoerul Umam",
+            "email": "khoerulumam@students.unnes.ac.id"
+        }
+    ],
+    "require": {
+        "longman/telegram-bot": "^0.55.1"
+    }
+}
