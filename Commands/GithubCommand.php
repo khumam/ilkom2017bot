@@ -30,7 +30,8 @@ class GithubCommand extends UserCommand
             'http' => [
                     'method' => 'GET',
                     'header' => [
-                            'User-Agent: PHP'
+                            'User-Agent: PHP',
+                            'Time-Zone: Asia/Jakarta',
                                 ]
                     ]
             ];
@@ -95,7 +96,7 @@ class GithubCommand extends UserCommand
                     $create = str_replace('T', ', ', $decdata['created_at']);
                     $update = str_replace('T', ', ', $decdata['updated_at']);
                     
-                    if(empty($hasil['login'])) {
+                    if(empty($decdata['login'])) {
                         
                         $text = "User $user Tidak ditemukan.";
                     }
@@ -131,6 +132,8 @@ class GithubCommand extends UserCommand
                     $data = file_get_contents('https://api.github.com/repos/'.$user.'/'.$q, false, $context);
                     $decdata = json_decode($data, true);
                     
+                    $readme = base64_decode($decdata['content']);
+                    
                     $stts = $decdata['message'];
                     $hasil = $decdata;
                     $fullname = $hasil['full_name'];
@@ -152,6 +155,11 @@ class GithubCommand extends UserCommand
                     if(empty($hasil['full_name'])) {
                         
                         $text = "Repositories $key dari $user tidak ditemukan";
+                    }
+                    
+                    if(!empty($decdata['content'])){
+                        
+                        $text = $readme;
                     }
                     
                     else {
