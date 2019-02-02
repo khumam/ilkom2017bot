@@ -28,7 +28,7 @@ class InfoCommand extends UserCommand
         
         if($id === ''){
             
-            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/all/d38f7bc09f3e54d467a1dedcf9fc24d9');
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/all/APIKEY');
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];
@@ -93,7 +93,7 @@ class InfoCommand extends UserCommand
         
         else {
             
-            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/'.$id.'/d38f7bc09f3e54d467a1dedcf9fc24d9');
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/'.$id.'/APIKEY');
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];
