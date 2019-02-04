@@ -26,3 +26,4 @@ Bot ini menggunakan beberapa API, diantaranya
 - [Github API](https://api.github.com) = Informasi pencarian repositori dan informasi user github.
 - [Kateglo API](http://kateglo.com) = Fitur KBBI.
 - [Dyseo API](https://dyseo.herokuapp.com) = Fitur Translate.
+- IT Book API = Fitur pencarian buku kategori IT
