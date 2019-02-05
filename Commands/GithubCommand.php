@@ -25,6 +25,7 @@ class GithubCommand extends UserCommand
         $user = trim($split[1]);
         $q = str_replace(' ', '%20',$key);
         $u = str_replace(' ', '%20',$user);
+        $page = $split[2];
         
         $opts = [
             'http' => [
@@ -58,6 +59,8 @@ class GithubCommand extends UserCommand
             $text .= "<code>Contoh /github user | sahmura</code>\n\n";
             $text .= "/github [nama repo] | [username] = Melihat detail repositories yang dimiliki user tertentu\n";
             $text .= "<code>Contoh /github MysqlLovePHP | sahmura</code>\n\n";
+            $text .= "/github [namarepo]/readme | [username] = Melihat file readme dari suatu repositories\n";
+            $text .= "<code>Contoh /github ilkom2017bot/readme | sahmura</code>\n\n";
             
             $kirimpesan = [
                 'chat_id' => $chat_id,
@@ -73,6 +76,67 @@ class GithubCommand extends UserCommand
             //JIka ada split 1 (user)
             
             if($split[1]){
+                
+                
+                //
+                
+                if($user == 'page'){
+                    
+                    if($page == ''){
+                    $hal = 1;
+                    } else {
+                        $hal = (int)$page;
+                    }
+                    
+                    $data = file_get_contents('https://api.github.com/search/repositories?q='. $q .'&page='. $hal .'&per_page=10', false, $context);
+                    $decdata = json_decode($data, true);
+                    
+                    $total = $decdata['total_count'];
+                    $hasil = $decdata['items'];
+                    $nextpage = $hal+1;
+                    $i = 1;
+                    
+                    $max = ceil((int)$total/10);
+                    
+                    if($total == 0) {
+                        
+                        $text = "Repositories tidak ditemukan. Coba yang lain.";
+                    }
+                    
+                    else {
+                        
+                        foreach ($hasil as $hsl) :
+                        $text .= "$i. <a href='". $hsl['html_url'] . "'>" . $hsl['full_name'] . "</a>\n";
+                        $text .= $hsl['description'] . "\n";
+                        $text .= "Bahasa : " . $hsl['language'] ."\n";
+                        $text .= "\xE2\xAD\x90 " . $hsl['stargazers_count'] ."\n\n";
+                        $i++;
+                        endforeach;
+                        
+                        if($i>10){
+                            
+                            if($hal <= $max){
+                            $text .= "Gunakan perintah di bawah ini untuk ke halaman selanjutnya\n<code>/github $key | page | " . $nextpage ."</code>";
+                            } 
+                            
+                            else {
+                                
+                                $text .= "Halaman terakhir";
+                            }
+                        }
+                    
+                    }
+                    
+                    $kirimpesan = [
+                        'chat_id' => $chat_id,
+                        'parse_mode' => 'HTML',
+                        'text' => $text
+                    ];
+                    
+                    return Request::sendMessage($kirimpesan);
+                }
+                
+                //
                 
                 
                 if($key == 'user'){
@@ -127,12 +191,15 @@ class GithubCommand extends UserCommand
                     return Request::sendMessage($kirimpesan);
                 }
                 
+                
+                
                 else {
                     
                     $data = file_get_contents('https://api.github.com/repos/'.$user.'/'.$q, false, $context);
                     $decdata = json_decode($data, true);
                     
-                    $readme = base64_decode($decdata['content']);
+                    $readme2 = base64_decode($decdata['content']);
+                    $readme = strip_tags($readme2);
                     
                     $stts = $decdata['message'];
                     $hasil = $decdata;
@@ -152,14 +219,30 @@ class GithubCommand extends UserCommand
                     $forks = $hasil['forks_count'];
                     $subs = $hasil['subscribers_count'];
                     
-                    if(empty($hasil['full_name'])) {
+                    if(empty($decdata['full_name'])) {
                         
                         $text = "Repositories $key dari $user tidak ditemukan";
+                        
+                        $kirimpesan = [
+                                'chat_id' => $chat_id,
+                                'parse_mode' => "MARKDOWN",
+                                'text' => $text
+                            ];
+                        
+                        return Request::sendMessage($kirimpesan);
                     }
                     
                     if(!empty($decdata['content'])){
                         
                         $text = $readme;
+                        
+                        $kirimpesan = [
+                                'chat_id' => $chat_id,
+                                'parse_mode' => "MARKDOWN",
+                                'text' => $text
+                            ];
+                        
+                        return Request::sendMessage($kirimpesan);
                     }
                     
                     else {
@@ -192,12 +275,21 @@ class GithubCommand extends UserCommand
             
             else {
                 
-                $data = file_get_contents('https://api.github.com/search/repositories?q='. $q .'&page=1&per_page=10', false, $context);
+                if($u == ''){
+                    $hal = 1;
+                } else {
+                    $hal = (int)$u;
+                }
+                
+                $data = file_get_contents('https://api.github.com/search/repositories?q='. $q .'&page='. $hal .'&per_page=10', false, $context);
                 $decdata = json_decode($data, true);
                 
                 $total = $decdata['total_count'];
                 $hasil = $decdata['items'];
+                $nextpage = $hal+1;
                 $i = 1;
+                
+                $max = ceil((int)$total/10);
                 
                 if($total == 0) {
                     
@@ -213,6 +305,18 @@ class GithubCommand extends UserCommand
                     $text .= "\xE2\xAD\x90 " . $hsl['stargazers_count'] ."\n\n";
                     $i++;
                     endforeach;
+                    
+                     if($i>10){
+                            
+                            if($hal <= $max){
+                            $text .= "Gunakan perintah di bawah ini untuk ke halaman selanjutnya\n<code>/github $key | page | " . $nextpage ."</code>";
+                            } 
+                            
+                            else {
+                                
+                                $text .= "Halaman terakhir";
+                            }
+                        }
                 
                 }
                 
