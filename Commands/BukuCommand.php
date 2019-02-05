@@ -11,11 +11,11 @@ class BukuCommand extends UserCommand
     protected $name = 'buku';                      
     protected $description = 'Mencari Buku'; 
     protected $usage = '/buku [judul]';                    
-    protected $version = '1.0.0';                  
+    protected $version = '2.0.0';                  
 
     public function execute()
     {
-        $message = $this->getMessage();            
+        $message = $this->getMessage() ?: $this->getCallbackQuery()->getMessage();            
 
         $chat_id = $message->getChat()->getId();   
         $from_id = $message->getFrom()->getId();
@@ -151,6 +151,7 @@ class BukuCommand extends UserCommand
                 $buku = $decdata['books'];
                 $nextpage = $pages+1;
                 $banyak = (int)$total;
+                $max = ceil($banyak/10);
                 
                 $pagination = new InlineKeyboard([
                     
@@ -162,7 +163,13 @@ class BukuCommand extends UserCommand
             
                 if($error == '0'){
                     
-                    $text = "Ditemukan $total buku dengan kata kunci $judul\n\n";
+                    if($hal<=$max){
+                        $text = "Ditemukan $total buku dengan kata kunci $judul\n\n";
+                    }
+                    
+                    elseif($hal>$max){
+                        $text = "Tidak ditemukan atau melebihi batas halaman";
+                    }
                     
                     foreach ($buku as $books) :
                         
@@ -175,8 +182,15 @@ class BukuCommand extends UserCommand
                     endforeach;
                     
                 
-               if($banyak>10){     
-                    $text .= "Untuk ke halaman selanjutnya, gunakan perintah ini\n<code>/buku $judul | " . $nextpage ."</code>";
+               if($banyak>10){
+                   
+                   if($nextpage<=$max){
+                       
+                        $text .= "Untuk ke halaman selanjutnya, gunakan perintah ini\n<code>/buku $judul | " . $nextpage ."</code>";
+                   } else {
+                       
+                       $text .= "Halaman terakhir";
+                   }
                 }
                     
                 } else {
