@@ -68,7 +68,7 @@ class TranslateCommand extends UserCommand
                 endforeach;
                 
                 
-                $text = "Hai $nama, berikut Hasil terjemahan <b>$split[0]</b> dalam Bahasa $dest\n\n";
+                $text = "<i>$split[0]</i>\n\nTranslate $dest: \n";
                 $text .= "<i>$hasiltranslate</i>\n";
                 
                 if($dibaca){
@@ -110,7 +110,7 @@ class TranslateCommand extends UserCommand
                     
                     $hasiltranslate = $decdata['translate-text'];
                     
-                    $text = "Hai $nama, berikut Hasil terjemahan <b>$split[0]</b>\n\n";
+                    $text = "<i>$split[0]</i>\n\nTranslate : \n";
                     $text .= "<i>$hasiltranslate</i> \n";
                     
                     if($dibaca){
