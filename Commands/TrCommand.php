@@ -5,11 +5,11 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
 
-class TrCommand extends UserCommand
+class TranslateCommand extends UserCommand
 {
-    protected $name = 'tr';                      
-    protected $description = 'Terjemahan kata atau kalimat'; 
-    protected $usage = '/translate atau /tr [kalimat] | [kode bahasa:optional]';                    
+    protected $name = 'translate';                      
+    protected $description = 'terjemahan kata atau kalimat'; 
+    protected $usage = '/translate atau /tr [kalimat] | [bahasa:optional]';                    
     protected $version = '1.0.0';  
 
     public function execute()
@@ -68,7 +68,7 @@ class TrCommand extends UserCommand
                 endforeach;
                 
                 
-                $text = "Hai $nama, berikut Hasil terjemahan <b>$split[0]</b> dalam Bahasa $dest\n\n";
+                $text = "<i>$split[0]</i>\n\nTranslate $dest: \n";
                 $text .= "<i>$hasiltranslate</i>\n";
                 
                 if($dibaca){
@@ -92,7 +92,8 @@ class TrCommand extends UserCommand
                 
                 if($kalimat === 'listlang') {
                     
-                    $decdata = json_decode($kodebahasa, true);
+                    $data = file_get_contents('https://dyseo.herokuapp.com/listlang');
+                    $decdata = json_decode($data, true);
                     
                     $text = "Berikut list bahasa yang dapat digunakan\n\n";
                     
@@ -109,7 +110,7 @@ class TrCommand extends UserCommand
                     
                     $hasiltranslate = $decdata['translate-text'];
                     
-                    $text = "Hai $nama, berikut Hasil terjemahan <b>$split[0]</b>\n\n";
+                    $text = "<i>$split[0]</i>\n\nTranslate : \n";
                     $text .= "<i>$hasiltranslate</i> \n";
                     
                     if($dibaca){
