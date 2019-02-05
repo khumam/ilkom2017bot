@@ -3,7 +3,7 @@
 namespace Longman\TelegramBot\Commands\UserCommands;
 
 use Longman\TelegramBot\Commands\UserCommand;
-use Longman\TelegramBot\Entities\InlineKeyboard;
+use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Request;
 
 class BukuCommand extends UserCommand
@@ -152,12 +152,20 @@ class BukuCommand extends UserCommand
                 $nextpage = $pages+1;
                 $banyak = (int)$total;
                 $max = ceil($banyak/10);
-                
-                $pagination = new InlineKeyboard([
-                    
-                    ['text' => 'Next', 'callback_data' => "bukucallbackhandler"],
-                    
-                    ]);
+                if($banyak>10){
+                    $prevpage = $pages-1;
+                        if($nextpage<=$max){
+                            $pagination = new Keyboard(["/buku $judul | $prevpage", "/buku $judul | $nextpage"],['stop']);
+                            $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                        } else {
+                            
+                            $pagination = new Keyboard(["/buku $judul | $prevpage"],['stop']);
+                            $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                        }
+                } else {
+                    $pagination = new Keyboard(['stop']);
+                    $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                }
                 
                 $i = 1;
             
@@ -201,7 +209,7 @@ class BukuCommand extends UserCommand
                 $kirimpesan = [
                         'chat_id' => $chat_id,
                         'parse_mode' => 'HTML',
-                        // 'reply_markup' => $pagination,
+                        'reply_markup' => $pagination,
                         'text' => $text
                     ];
                 return Request::sendMessage($kirimpesan);
