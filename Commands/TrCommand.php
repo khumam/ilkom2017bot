@@ -5,9 +5,9 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
 
-class TranslateCommand extends UserCommand
+class TrCommand extends UserCommand
 {
-    protected $name = 'translate';                      
+    protected $name = 'tr';                      
     protected $description = 'terjemahan kata atau kalimat'; 
     protected $usage = '/translate atau /tr [kalimat] | [bahasa:optional]';                    
     protected $version = '1.0.0';  
