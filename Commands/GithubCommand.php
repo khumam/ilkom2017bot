@@ -4,11 +4,12 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\Entities\Keyboard;
 
 class GithubCommand extends UserCommand
 {
     protected $name = 'github';                      // Your command's name
-    protected $description = 'Github search'; // Your command description
+    protected $description = 'Github search';       // Your command description
     protected $usage = '/github [kata kunci]';                    // Usage of your command
     protected $version = '1.0.0';                  // Version of your command
 
@@ -82,6 +83,13 @@ class GithubCommand extends UserCommand
                 
                 if($user == 'page'){
                     
+                    $rmkey = [
+                            'chat_id' => $chat_id,
+                            'reply_markup' => Keyboard::remove()
+                        ];
+                        
+                    Request::sendMessage($rmkey);
+                    
                     if($page == ''){
                     $hal = 1;
                     } else {
@@ -95,8 +103,31 @@ class GithubCommand extends UserCommand
                     $hasil = $decdata['items'];
                     $nextpage = $hal+1;
                     $i = 1;
+                    $banyak = (int)$total;
                     
                     $max = ceil((int)$total/10);
+                    
+                    if($banyak>10){
+                    $prevpage = $hal-1;
+                        if($nextpage<=$max && $prevpage != 0){
+                            $pagination = new Keyboard(["/github $key | page | $prevpage", "/github $key | page | $nextpage"],['stop']);
+                            $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                        }
+                        
+                        elseif($nextpage<=$max && $prevpage == 0){
+                            $pagination = new Keyboard(["/github $key | page | $nextpage"],['stop']);
+                            $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                        }
+                        
+                        else {
+                            
+                            $pagination = new Keyboard(["/github $key | page | $prevpage"],['stop']);
+                            $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                        }
+                    } else {
+                        $pagination = new Keyboard(['stop']);
+                        $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                    }
                     
                     if($total == 0) {
                         
@@ -130,7 +161,8 @@ class GithubCommand extends UserCommand
                     $kirimpesan = [
                         'chat_id' => $chat_id,
                         'parse_mode' => 'HTML',
-                        'text' => $text
+                        'text' => $text,
+                        'reply_markup' => $pagination
                     ];
                     
                     return Request::sendMessage($kirimpesan);
@@ -288,8 +320,20 @@ class GithubCommand extends UserCommand
                 $hasil = $decdata['items'];
                 $nextpage = $hal+1;
                 $i = 1;
+                $banyak = (int)$total;
                 
                 $max = ceil((int)$total/10);
+                
+                if($banyak>10){
+                    
+                    $prevpage = $hal-1;
+                    $pagination = new Keyboard(["/github $key | page | $nextpage"],['stop']);
+                    $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                    
+                } else {
+                        $pagination = new Keyboard(['stop']);
+                        $pagination->setResizeKeyboard(true)->setOneTimeKeyboard(true)->setSelective(false);
+                }
                 
                 if($total == 0) {
                     
@@ -323,7 +367,8 @@ class GithubCommand extends UserCommand
                 $kirimpesan = [
                     'chat_id' => $chat_id,
                     'parse_mode' => 'HTML',
-                    'text' => $text
+                    'text' => $text,
+                    'reply_markup' => $pagination
                 ];
                 
                 return Request::sendMessage($kirimpesan);
