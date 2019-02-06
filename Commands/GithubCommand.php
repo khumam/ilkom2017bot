@@ -253,28 +253,15 @@ class GithubCommand extends UserCommand
                     
                     if(empty($decdata['full_name'])) {
                         
-                        $text = "Repositories $key dari $user tidak ditemukan";
+                        if(!empty($decdata['con
+
+                           $text = $readme;
+
+                        } else {
+
+                           $text = "Repositories $key dari $user tidak ditemukan";
+                        }
                         
-                        $kirimpesan = [
-                                'chat_id' => $chat_id,
-                                'parse_mode' => "MARKDOWN",
-                                'text' => $text
-                            ];
-                        
-                        return Request::sendMessage($kirimpesan);
-                    }
-                    
-                    if(!empty($decdata['content'])){
-                        
-                        $text = $readme;
-                        
-                        $kirimpesan = [
-                                'chat_id' => $chat_id,
-                                'parse_mode' => "MARKDOWN",
-                                'text' => $text
-                            ];
-                        
-                        return Request::sendMessage($kirimpesan);
                     }
                     
                     else {
