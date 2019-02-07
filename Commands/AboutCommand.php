@@ -26,6 +26,11 @@ class AboutCommand extends UserCommand
         $text .= "<b>4. Broadcast [COMING SOON]</b>\nEntah bisa atau enggak, nantinya bisa mengirim pesan broadcast ke seluruh anggota. Masih mempertimbangkan kebijakan, takutnya spam\n\n";
         $text .= "<b>5. Menggunakan API sendiri</b>\nSekarang menggunakan API sendiri untuk mendapatkan data seperti jadwal dan informasi. Jadi gak manual lagi. PUBLIC API akan di share dikemudian hari yang nantinya bisa digunakan apabila ingin membuat aplikasi informasi serupa seperti aplikasi android, web, dan sebagainya\n\n";
         $text .= "Untuk sekarang itu dulu, selengkapnya akan ditambah lagi. Terima kasih everyone \xF0\x9F\x98\x98";
+        
+        $text .= "\n\nBot Library : <a href='https://github.com/php-telegram-bot/core'>PHP-Telegram-Bot akalongman</a>\nMore info klik <code>/github core | php-telegram-bot</code>\n\n";
+        $text .= "Creator: <a href='https://github.com/sahmura'>Khoerul Umam</a>\n";
+        $text .= "Admin : Ibnu Azzam A.\n\n";
+        $text .= "Ikut kontribusi : <a href='https://github.com/sahmura/ilkom2017bot'>Ilkom2017bot</a>";
 
         
         Request::sendChatAction([
@@ -37,7 +42,8 @@ class AboutCommand extends UserCommand
         $kirimpesan = [
             'chat_id' => $chat_id,
             'parse_mode' => 'HTML',
-            'text' => $text
+            'text' => $text,
+            'disable_web_page_preview' => 1
             ];
         
         return Request::sendMessage($kirimpesan);
