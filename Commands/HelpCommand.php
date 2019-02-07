@@ -36,7 +36,9 @@ class HelpCommand extends UserCommand
         $text .= "<b>Fitur</b>\n";
         $text .= "/kbbi = Mencari definisi kata dari KBBI.\n";
         $text .= "/github = Fitur pencarian di github.\n";
-        $text .= "/translate atau /tr = Terjemahan bahasa\n\n";
+        $text .= "/buku = Menacari buku seputar IT\n";
+        $text .= "/translate atau /tr = Terjemahan bahasa\n";
+        $text .= "/stack = Mencari postingan dari Stackoverflow\n\n";
         
         $text .= "<b>Lainnya</b>\n";
         $text .= "/pesan = Mengirim kritik dan saran ke Bot, bisa juga digunakan untuk request fitur misalnya.\n";
