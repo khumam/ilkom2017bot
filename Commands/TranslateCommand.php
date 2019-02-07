@@ -23,7 +23,7 @@ class TranslateCommand extends UserCommand
         $split = explode('|', $isi);
         $kalimat = str_replace(' ', '%20',trim($split[0]));
         $bahasa = trim($split[1]);
-        $kodebahasa = file_get_contents('https://dyseo.herokuapp.com/listlang');
+        $kodebahasa = file_get_contents('https://bejoku.herokuapp.com/apis/listlang');
         $kodebhs = json_decode($kodebahasa, true);
         
         Request::sendChatAction([
@@ -52,7 +52,7 @@ class TranslateCommand extends UserCommand
             
             if(!empty($split[1])){
                 
-                $data = file_get_contents('https://dyseo.herokuapp.com/translate?text='. $kalimat .'&dest='. $bahasa .'&src=auto');
+                $data = file_get_contents('https://bejoku.herokuapp.com/apis/translate?text='. $kalimat .'&dest='. $bahasa .'&src=auto');
                 $decdata = json_decode($data, true);
                 
                 $hasiltranslate = $decdata['translate-text'];
@@ -92,7 +92,7 @@ class TranslateCommand extends UserCommand
                 
                 if($kalimat === 'listlang') {
                     
-                    $data = file_get_contents('https://dyseo.herokuapp.com/listlang');
+                    $data = file_get_contents('https://bejoku.herokuapp.com/apis/listlang');
                     $decdata = json_decode($data, true);
                     
                     $text = "Berikut list bahasa yang dapat digunakan\n\n";
@@ -105,7 +105,7 @@ class TranslateCommand extends UserCommand
                 
                 else {
                 
-                    $data = file_get_contents('https://dyseo.herokuapp.com/translate?text='. $kalimat .'&dest=en&src=auto');
+                    $data = file_get_contents('https://bejoku.herokuapp.com/apis/translate?text='. $kalimat .'&dest=en&src=auto');
                     $decdata = json_decode($data, true);
                     
                     $hasiltranslate = $decdata['translate-text'];
