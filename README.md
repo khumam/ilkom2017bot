@@ -22,8 +22,8 @@ Seluruh kode program Bot dari [php-telegram-bot](https://github.com/php-telegram
 # API
 
 Bot ini menggunakan beberapa API, diantaranya
-- Ilkom Unnes API = Informasi umum, informasi beasiswa, dan informasi jadwal. (Homepage on progress)
+- [Ilkom 2017 Unnes API](https://github.com/sahmura/ilkom2017api) = Informasi umum, informasi beasiswa, dan informasi jadwal.
 - [Github API](https://api.github.com) = Informasi pencarian repositori dan informasi user github.
 - [Kateglo API](http://kateglo.com) = Fitur KBBI.
-- [Dyseo API](https://dyseo.herokuapp.com) = Fitur Translate.
-- IT Book API = Fitur pencarian buku kategori IT
+- [Alnyz Corps](https://bejoku.herokuapp.com) = Fitur Translate dan pencarian postingan Stackoverflow.
+- [IT Book Store API](https://api.itbook.store/) = Fitur pencarian buku kategori IT
