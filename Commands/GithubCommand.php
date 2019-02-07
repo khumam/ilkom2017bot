@@ -162,7 +162,8 @@ class GithubCommand extends UserCommand
                         'chat_id' => $chat_id,
                         'parse_mode' => 'HTML',
                         'text' => $text,
-                        'reply_markup' => $pagination
+                        'reply_markup' => $pagination,
+                        'disable_web_page_preview' => 1
                     ];
                     
                     return Request::sendMessage($kirimpesan);
@@ -217,7 +218,8 @@ class GithubCommand extends UserCommand
                     $kirimpesan = [
                             'chat_id' => $chat_id,
                             'parse_mode' => 'HTML',
-                            'text' => $text
+                            'text' => $text,
+                            'disable_web_page_preview' => 1
                         ];
                         
                     return Request::sendMessage($kirimpesan);
@@ -253,17 +255,18 @@ class GithubCommand extends UserCommand
                     
                     if(empty($decdata['full_name'])) {
                         
-                        if(!empty($decdata['content']))
-                        {
-                           $text = $readme;
+                        if(!empty($decdata['content'])) {
 
-                           $kirimpesan = [
-                           	'chat_id' => $chat_id,
-                           	'parse_mode'=> 'MARKDOWN',
-                            'text' => $text
-                           ];
-
-                           return Request::sendMessage($kirimpesan);
+                         $text = $readme;
+                         
+                    $kirimpesan = [
+                        'chat_id'=>$chat_id,
+                        'parse_mode'=> 'MARKDOWN',
+                        'text'=>$text,
+                        'disable_web_page_preview' => 1
+                    ];
+                 
+                return Request::sendMessage($kirimpesan);
 
                         } else {
 
@@ -290,7 +293,8 @@ class GithubCommand extends UserCommand
                     $kirimpesan = [
                             'chat_id' => $chat_id,
                             'parse_mode' => 'HTML',
-                            'text' => $text
+                            'text' => $text,
+                            'disable_web_page_preview' => 1
                         ];
                         
                     return Request::sendMessage($kirimpesan);
@@ -363,7 +367,8 @@ class GithubCommand extends UserCommand
                     'chat_id' => $chat_id,
                     'parse_mode' => 'HTML',
                     'text' => $text,
-                    'reply_markup' => $pagination
+                    'reply_markup' => $pagination,
+                    'disable_web_page_preview' => 1
                 ];
                 
                 return Request::sendMessage($kirimpesan);
