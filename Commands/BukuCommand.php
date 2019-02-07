@@ -4,6 +4,7 @@ namespace Longman\TelegramBot\Commands\UserCommands;
 
 use Longman\TelegramBot\Commands\UserCommand;
 use Longman\TelegramBot\Entities\Keyboard;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
 
 class BukuCommand extends UserCommand
@@ -111,6 +112,8 @@ class BukuCommand extends UserCommand
                     $text .= "Rating : " . $books['rating'] . "\n\n";
                     $text .= "<a href='" . $books['url'] . "'>More Info</a>\n";
                     
+                    $kirimpesan['reply_markup'] = new InlineKeyboard([['text' => 'More Info', 'url' => $books['url']]]);
+                    
                     Request::sendPhoto([
                             'chat_id' => $chat_id,
                             'photo' => $img
@@ -126,7 +129,8 @@ class BukuCommand extends UserCommand
                 $kirimpesan = [
                     'chat_id' => $chat_id,
                     'parse_mode' => 'HTML',
-                    'text' => $text
+                    'text' => $text,
+                    'disable_web_page_preview' => 1,
                 ];
                 
                 return Request::sendMessage($kirimpesan);
