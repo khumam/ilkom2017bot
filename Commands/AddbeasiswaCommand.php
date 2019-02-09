@@ -33,6 +33,19 @@ class AddbeasiswaCommand extends UserCommand
         $perihal = $split[0];
         $isi = ltrim($split[1]);
         
+        $auth = $pdo->query("select is_ban from user where teleid = '$chat_id'")->fetchColumn();
+        
+        if($auth == 1){
+            
+            $text = "Maaf anda tidak memiliki akses";
+            $kirimpesan = [
+                'chat_id' => $chat_id,
+                'text' => $text
+                ];
+            
+            return Request::sendMessage($kirimpesan);
+        } 
+        
         if($pesanuser === ''){
             
             $text = "Peesan harus menggunakan perintah\n\n"

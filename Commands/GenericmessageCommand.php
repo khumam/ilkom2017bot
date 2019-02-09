@@ -9,6 +9,7 @@
  */
 namespace Longman\TelegramBot\Commands\SystemCommands;
 use Longman\TelegramBot\Commands\SystemCommand;
+use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Conversation;
 use Longman\TelegramBot\Request;
 /**
@@ -61,6 +62,18 @@ class GenericmessageCommand extends SystemCommand
         //Fetch conversation command if it exists and execute it
         if ($conversation->exists() && ($command = $conversation->getCommand())) {
             return $this->telegram->executeCommand($command);
+        }
+        
+        $dapat = $this->getMessage()->getText(true);
+        
+        if($dapat == 'stop'){
+            
+            $kirimpesan = [
+                'chat_id' => $this->getMessage()->getChat()->getId(),
+                'text' => "Berhenti",
+                'reply_markup' => Keyboard::remove()
+            ];
+            return Request::sendMessage($kirimpesan);
         }
         
         $text = "Apa yang sedang kamu cari? Silahkan klik /help untuk melihat daftar perintah";

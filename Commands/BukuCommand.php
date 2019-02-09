@@ -221,4 +221,8 @@ class BukuCommand extends UserCommand
         }
 
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Update db, jadwal, etc

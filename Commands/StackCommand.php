@@ -157,4 +157,8 @@ class StackCommand extends UserCommand
         }
         
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> Update db, jadwal, etc

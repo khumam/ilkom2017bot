@@ -25,10 +25,27 @@ class InfoCommand extends UserCommand
                 'chat_id' => $chat_id,
                 'action' => 'typing'
             ]);
+            
+        // $auth = $pdo->query("select is_ban from user where teleid = '$chat_id'")->fetchColumn();
+        
+        // if($auth == 1){
+            
+        //     $text = "Maaf anda tidak memiliki akses";
+        //     $kirimpesan = [
+        //         'chat_id' => $chat_id,
+        //         'text' => $text
+        //         ];
+            
+        //     return Request::sendMessage($kirimpesan);
+        // } 
         
         if($id === ''){
             
+<<<<<<< HEAD
             $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/all/APIKEY');
+=======
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/all/{APIKEY}');
+>>>>>>> Update db, jadwal, etc
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];
@@ -93,7 +110,11 @@ class InfoCommand extends UserCommand
         
         else {
             
+<<<<<<< HEAD
             $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/'.$id.'/APIKEY');
+=======
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/info/'.$id.'/{APIKEY}');
+>>>>>>> Update db, jadwal, etc
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];

@@ -23,7 +23,7 @@ class BeasiswaCommand extends UserCommand
         
         if($id === ''){
             
-            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/beasiswa/all/d38f7bc09f3e54d467a1dedcf9fc24d9');
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/beasiswa/all/{APIKEY}');
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];
@@ -88,7 +88,7 @@ class BeasiswaCommand extends UserCommand
         
         else {
             
-            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/beasiswa/'.$id.'/d38f7bc09f3e54d467a1dedcf9fc24d9');
+            $data = file_get_contents('http://ilkomunnes.000webhostapp.com/api/beasiswa/'.$id.'/{APIKEY}');
             $decdata = json_decode($data, true);
             
             $koneksi = $decdata['koneksi'];
